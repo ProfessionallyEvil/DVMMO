@@ -16,3 +16,7 @@ mono_crash.*.json
 
 .export
 .export/*
+
+.sconsign.dblite
+bin
+bin/
