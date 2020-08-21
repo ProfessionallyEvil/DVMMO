@@ -2,15 +2,49 @@
 import os, subprocess
 
 # define our target
-target_path = 'demo/bin/'
-target_name = 'libgdtest'
+target_path = 'dvmmo/bin/'
+target_name = 'gdtest'
 
 # Local dependency paths, adapt them to your setup
 godot_headers_path = "godot-cpp/godot_headers/"
 cpp_bindings_path = "godot-cpp/"
-cpp_library = "godot-cpp"
+cpp_library = "libgodot-cpp"
 
 target = ARGUMENTS.get("target", "debug")
+
+if (os.name=="nt"):
+    import subprocess
+
+    def mySubProcess(cmdline,env):
+        #print "SPAWNED : " + cmdline
+        startupinfo = subprocess.STARTUPINFO()
+        startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+        proc = subprocess.Popen(cmdline, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE, startupinfo=startupinfo, shell = False, env = env)
+        data, err = proc.communicate()
+        rv = proc.wait()
+        if rv:
+            print("=====")
+            print(err.decode("utf-8"))
+            print("=====")
+        return rv
+
+    def mySpawn(sh, escape, cmd, args, env):
+
+        newargs = ' '.join(args[1:])
+        cmdline = cmd + " " + newargs
+
+        rv=0
+        if len(cmdline) > 32000 and cmd.endswith("ar") :
+            cmdline = cmd + " " + args[1] + " " + args[2] + " "
+            for i in range(3,len(args)) :
+                rv = mySubProcess( cmdline + args[i], env )
+                if rv :
+                    break
+        else:
+            rv = mySubProcess( cmdline, env )
+
+        return rv
 
 # platform= makes it in line with Godots scons file, keeping p for backwards compatibility
 platform = ARGUMENTS.get("p", "windows")
@@ -21,6 +55,7 @@ platform = ARGUMENTS.get("platform", platform)
 env = Environment()
 if platform == "windows":
     env = Environment(ENV = os.environ, tools = ['mingw'])
+    env["SPAWN"] = mySpawn
 
 if ARGUMENTS.get("use_llvm", "no") == "yes":
     env["CXX"] = "clang++"
@@ -48,7 +83,7 @@ if platform == "windows":
     else:
         env.Append(CCFLAGS = ['-O2', '-EHsc', '-DNDEBUG', '-MD'])
     target_path += 'win64/'
-    cpp_library += '.windows.64'
+    cpp_library += '.windows.debug.default.a'
 
 # , 'include', 'include/core'
 env.Append(CPPPATH=['.', 'src/', godot_headers_path, cpp_bindings_path + 'include/', cpp_bindings_path + 'include/core/', cpp_bindings_path + 'include/gen/'])
