@@ -1,0 +1,20 @@
+[entry]
+
+X11.64="res://bin/x11/gdtest.so"
+Windows.64="res://bin/win64/gdtest.dll"
+OSX=64
+OSX.64="res://bin/osx/gdtest.dylib"
+Linux.64="res://bin/linux/gdtest.so"
+
+[dependencies]
+
+X11.64=[  ]
+Windows.64=[  ]
+OSX.64=[  ]
+
+[general]
+
+singleton=false
+load_once=true
+symbol_prefix="godot_"
+reloadable=true

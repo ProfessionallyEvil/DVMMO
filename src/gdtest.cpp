@@ -3,22 +3,18 @@
 using namespace godot;
 
 void GDTest::_register_methods() {
-    register_method("a_method", &GDTest::a_method);
-    register_property<GDTest, String>("data", &GDTest::set_data, &GDTest::get_data, String("Hello world!"));
+    register_method("_process", &GDTest::_process);
 }
+
+GDTest::GDTest() {}
+GDTest::~GDTest() {}
 
 void GDTest::_init() {
-
+    time_passed = 0.0;
 }
 
-void GDTest::set_data(String new_data) {
-    _data = new_data;
-}
-
-String GDTest::get_data() const {
-    return _data;
-}
-
-String GDTest::a_method() {
-    return _data;
+void GDTest::_process(float delta) {
+    time_passed += delta;
+    Vector2 new_position = Vector2(10.0 + (10.0 * sin(time_passed * 2.0)), 10.0 + (10.0 * cos(time_passed * 1.5)));
+    set_position(new_position);
 }

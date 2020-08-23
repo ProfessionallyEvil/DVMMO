@@ -2,24 +2,23 @@
 #define GDTEST_HPP
 
 #include <Godot.hpp>
-#include <Spatial.hpp>
+#include <Sprite.hpp>
 
 namespace godot {
 
-class GDTest : public Spatial {
-    GODOT_CLASS(GDTest, Spatial)
+class GDTest : public Sprite {
+    GODOT_CLASS(GDTest, Sprite)
 
     private:
-        String _data;
+        float time_passed;
     public:
         static void _register_methods();
     
-        void _init();
-    
-        void set_data(String new_data);
-        String get_data() const;
-    
-        String a_method();
+        GDTest();
+        ~GDTest();
+
+        void _init(); // the initilizer called by Godot
+        void _process(float delta); 
     };
 }
 

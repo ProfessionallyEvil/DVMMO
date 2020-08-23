@@ -54,8 +54,9 @@ platform = ARGUMENTS.get("platform", platform)
 # that way you can run scons in a vs 2017 prompt and it will find all the required tools
 env = Environment()
 if platform == "windows":
-    env = Environment(ENV = os.environ, tools = ['mingw'])
-    env["SPAWN"] = mySpawn
+    env = Environment(ENV = os.environ)
+    #env = Environment(ENV = os.environ, tools = ['mingw'])
+    #env["SPAWN"] = mySpawn
 
 if ARGUMENTS.get("use_llvm", "no") == "yes":
     env["CXX"] = "clang++"
@@ -77,13 +78,13 @@ if platform == "linux":
     cpp_library += '.linux.64'
 
 if platform == "windows":
-    env.Append(CCFLAGS = ['-DWIN32', '-D_WIN32', '-D_WINDOWS', '-W', '-D_CRT_SECURE_NO_WARNINGS'])
+    env.Append(CCFLAGS = ['-DWIN32', '-D_WIN32', '-D_WINDOWS', '-W3', '-GR', '-D_CRT_SECURE_NO_WARNINGS'])
     if target == "debug":
-        env.Append(CCFLAGS = ['-D_DEBUG', '-MD'])
+        env.Append(CCFLAGS = ['-EHsc', '-D_DEBUG', '-MDd'])
     else:
         env.Append(CCFLAGS = ['-O2', '-EHsc', '-DNDEBUG', '-MD'])
     target_path += 'win64/'
-    cpp_library += '.windows.debug.default.a'
+    cpp_library += '.windows.debug.default'
 
 # , 'include', 'include/core'
 env.Append(CPPPATH=['.', 'src/', godot_headers_path, cpp_bindings_path + 'include/', cpp_bindings_path + 'include/core/', cpp_bindings_path + 'include/gen/'])
