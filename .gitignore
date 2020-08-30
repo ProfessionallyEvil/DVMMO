@@ -16,3 +16,13 @@ mono_crash.*.json
 
 .export
 .export/*
+
+.sconsign.dblite
+dvmmo/bin/win64/
+dvmmo/bin/linux/
+dvmmo/bin/osx/
+
+src/*.o
+src/*.d
+src/*.a
+src/*.obj
