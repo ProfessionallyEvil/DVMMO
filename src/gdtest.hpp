@@ -19,21 +19,6 @@ namespace godot {
             void _init(); // the initilizer called by Godot
             void _process(float delta);
     };
-
-    class FuckYou : public Spatial {
-        GODOT_CLASS(FuckYou, Spatial)
-        private:
-            String message;
-        public:
-            static void _register_methods();
-
-            FuckYou();
-            ~FuckYou();
-
-            void _init();
-            void _process(float delta);
-            String get_message() const;
-    };
 }
 
 #endif /* !GDTEST_HPP */
