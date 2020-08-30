@@ -12,4 +12,5 @@ extern "C" void GDN_EXPORT godot_nativescript_init(void *handle) {
     // init native script tell godot about the classes in our plugin
     godot::Godot::nativescript_init(handle);
     godot::register_class<godot::GDTest>();
+    godot::register_class<godot::FuckYou>();
 }

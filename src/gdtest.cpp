@@ -2,7 +2,9 @@
 
 using namespace godot;
 
+// GDTest
 void GDTest::_register_methods() {
+    register_method("_init", &GDTest::_init);
     register_method("_process", &GDTest::_process);
 }
 
@@ -15,6 +17,25 @@ void GDTest::_init() {
 
 void GDTest::_process(float delta) {
     time_passed += delta;
-    Vector2 new_position = Vector2(10.0 + (10.0 * sin(time_passed * 2.0)), 10.0 + (10.0 * cos(time_passed * 1.5)));
-    set_position(new_position);
+    rotate_y(time_passed * 2.0 * delta);
+}
+
+// FuckYou
+void FuckYou::_register_methods() {
+    register_method("_init", &FuckYou::_init);
+    register_method("_process", &FuckYou::_process);
+    register_method("get_message", &FuckYou::get_message);
+}
+
+FuckYou::FuckYou() {}
+FuckYou::~FuckYou() {}
+
+void FuckYou::_init() {
+    message = "piss off >:I";
+}
+
+void FuckYou::_process(float delta) {}
+
+String FuckYou::get_message() const {
+    return message;
 }
