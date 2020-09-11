@@ -18,9 +18,9 @@ namespace godot {
         private:
             Ref<PackedScene> playerScene;
             Dictionary players;
-            const String SERVER_IP = "127.0.0.1";
-            const int64_t SERVER_IP = 33333;
-            const int64_t MAX_PLAYERS = 1000;
+            String server_ip = "127.0.0.1";
+            int64_t server_port = 33333;
+            int64_t max_players = 1000;
         public:
             static void _register_methods();
 
@@ -29,7 +29,17 @@ namespace godot {
 
             void _init();
             void _ready();
-            // no process needed
+            void _process(float delta);
+            /* how should the entry point to the server actually work... */
+
+            String get_server_ip();
+            void set_server_ip(String server_ip);
+
+            int64_t get_server_port();
+            void set_server_port(int64_t server_port);
+
+            int64_t get_max_players();
+            void set_max_players(int64_t max_players);
     };
 }
 
