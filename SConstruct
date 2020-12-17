@@ -3,7 +3,7 @@ import os, subprocess
 
 # define our target
 target_path = 'dvmmo/bin/'
-target_name = 'gdtest'
+target_name = 'library'
 
 # Local dependency paths, adapt them to your setup
 godot_headers_path = "godot-cpp/godot_headers/"
